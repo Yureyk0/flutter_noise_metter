@@ -1,9 +1,72 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:noise_meter/noise_meter.dart';
 
 import '../bottom_bar/bottom_bar.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
+
+  @override
+  State<Home> createState() => HomeState();
+}
+
+class HomeState extends State<Home> {
+  bool isRecording = false;
+  StreamSubscription<NoiseReading>? noiseSubscription;
+  late NoiseMeter noiseMeter;
+  double thisCurrencyNoise = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    noiseMeter = new NoiseMeter(onError);
+  }
+
+  @override
+  void dispose() {
+    noiseSubscription?.cancel();
+    super.dispose();
+  }
+
+  void onData(NoiseReading noiseReading) {
+    setState(() {
+      if (!isRecording) {
+        isRecording = true;
+      }
+    });
+    print(noiseReading.toString());
+    thisCurrencyNoise = noiseReading.maxDecibel;
+  }
+
+  void onError(Object error) {
+    print(error.toString());
+    isRecording = false;
+  }
+
+  void start() async {
+    try {
+      noiseSubscription = noiseMeter.noiseStream.listen(onData);
+    } catch (err) {
+      print(err);
+    }
+    isRecording = true;
+  }
+
+  void stop() async {
+    try {
+      if (noiseSubscription != null) {
+        noiseSubscription!.cancel();
+        noiseSubscription = null;
+      }
+      setState(() {
+        isRecording = false;
+      });
+    } catch (err) {
+      print('stopRecorder error: $err');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +122,9 @@ class Home extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Text(
-                      '22.3',
-                      style: TextStyle(
+                    Text(
+                      thisCurrencyNoise.toStringAsFixed(1),
+                      style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 80,
                           color: Color.fromARGB(221, 34, 34, 34)),

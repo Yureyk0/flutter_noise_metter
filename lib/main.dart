@@ -8,6 +8,13 @@ void main() {
   runApp(const MyApp());
 }
 
+class AllRoutes {
+  static const String home = '/';
+  static const String info = '/info';
+  static const String setting = '/setting';
+  static const String saves = '/saves';
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -21,10 +28,10 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Raleway',
       ),
       routes: {
-        '/': (context) => const Home(),
-        '/info': (context) => const InfoPage(),
-        '/setting': (context) => const SettingPage(),
-        '/saves': (context) => const SavesPage(),
+        AllRoutes.home: (context) => const Home(),
+        AllRoutes.info: (context) => const InfoPage(),
+        AllRoutes.setting: (context) => const SettingPage(),
+        AllRoutes.saves: (context) => const SavesPage(),
       },
       initialRoute: '/',
     );

@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shum_app/main.dart';
+import 'package:shum_app/screens/home.dart';
 
 class BottomBar extends StatelessWidget {
   const BottomBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var itRoute = ModalRoute.of(context)?.settings.name;
+    String? thisRoute() => ModalRoute.of(context)?.settings.name;
 
-    ifActiveSavesBtn() {
-      return itRoute == '/saves'
+    Color activeBtnColor(String route) {
+      return route == thisRoute()
           ? const Color.fromARGB(255, 240, 236, 236)
           : Colors.transparent;
     }
 
-    ifActiveHomeBtn() {
-      return itRoute == '/'
-          ? const Color.fromARGB(255, 240, 236, 236)
-          : Colors.transparent;
+    bool? getIsRecording() =>
+        context.findAncestorStateOfType<HomeState>()?.isRecording;
+    getOnStart() {
+      return context.findAncestorStateOfType<HomeState>()?.start();
+    }
+
+    getOnStop() {
+      return context.findAncestorStateOfType<HomeState>()?.stop();
     }
 
     return Row(
@@ -25,12 +31,12 @@ class BottomBar extends StatelessWidget {
       children: [
         Material(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          color: ifActiveSavesBtn(),
+          color: activeBtnColor(AllRoutes.saves),
           child: InkWell(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             onTap: () {
-              itRoute != '/saves'
-                  ? Navigator.of(context).pushNamed('/saves')
+              thisRoute() != AllRoutes.saves
+                  ? Navigator.of(context).pushNamed(AllRoutes.saves)
                   : null;
             },
             child: SizedBox(
@@ -45,17 +51,25 @@ class BottomBar extends StatelessWidget {
           ),
         ),
         Material(
-          color: ifActiveHomeBtn(),
+          color: activeBtnColor(AllRoutes.home),
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           child: InkWell(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             onTap: () async {
-              itRoute != '/' ? Navigator.of(context).pushNamed('/') : null;
+              thisRoute() != AllRoutes.home
+                  ? Navigator.of(context).pushNamed(AllRoutes.home)
+                  : null;
 
               var status = await Permission.microphone.isDenied;
 
-              if (itRoute == '/' && status) {
+              if (thisRoute() == AllRoutes.home && status) {
                 await Permission.microphone.request();
+              }
+
+              if (!getIsRecording()!) {
+                getOnStart();
+              } else if (getIsRecording()!) {
+                getOnStop();
               }
             },
             child: SizedBox(
