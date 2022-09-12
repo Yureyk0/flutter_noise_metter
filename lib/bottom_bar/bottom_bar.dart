@@ -69,7 +69,6 @@ class _BottomBarState extends State<BottomBar> {
               activeButtonNavigation(AllRoutes.home);
 
               var status = await Permission.microphone.isDenied;
-
               if (thisRoute() == AllRoutes.home && status) {
                 await Permission.microphone.request();
               }

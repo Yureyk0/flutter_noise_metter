@@ -21,7 +21,7 @@ class HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    noiseMeter = new NoiseMeter(onError);
+    noiseMeter = NoiseMeter(onError);
   }
 
   @override
@@ -36,7 +36,7 @@ class HomeState extends State<Home> {
         isRecording = true;
       }
     });
-    print(noiseReading.toString());
+
     thisCurrencyNoise = noiseReading.maxDecibel;
   }
 
@@ -117,7 +117,10 @@ class HomeState extends State<Home> {
                 Container(
                   width: MediaQuery.of(context).size.width * 0.9,
                   height: 250,
-                  color: Colors.red,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.red,
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
