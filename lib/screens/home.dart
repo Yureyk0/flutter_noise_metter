@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:noise_meter/noise_meter.dart';
 import 'package:shum_app/main.dart';
+import 'package:shum_app/services/all_route.dart';
+import 'package:shum_app/services/inform_to_screens.dart';
 
 import '../bottom_bar/bottom_bar.dart';
 
 class Home extends StatefulWidget {
-  final Function goToRoute;
-  const Home({Key? key, required this.goToRoute}) : super(key: key);
+  final InformToScreens informToScreens;
+  const Home(this.informToScreens, {Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => HomeState();
@@ -73,7 +75,7 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomBar(widget.goToRoute),
+      bottomNavigationBar: BottomBar(widget.informToScreens),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,7 +95,7 @@ class HomeState extends State<Home> {
                       ),
                     ),
                     onTap: () {
-                      widget.goToRoute(AllRoutes.info);
+                      widget.informToScreens.goToRoute(AllRoutes.info);
                     },
                     borderRadius: BorderRadius.circular(50),
                   ),
@@ -107,7 +109,7 @@ class HomeState extends State<Home> {
                       ),
                     ),
                     onTap: () {
-                      widget.goToRoute(AllRoutes.setting);
+                      widget.informToScreens.goToRoute(AllRoutes.setting);
                     },
                     borderRadius: BorderRadius.circular(50),
                   ),

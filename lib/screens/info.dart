@@ -3,9 +3,11 @@ import 'package:provider/provider.dart';
 
 import 'dart:math' as math;
 
+import 'package:shum_app/services/inform_to_screens.dart';
+
 class InfoPage extends StatelessWidget {
-  final Function goToRoute;
-  const InfoPage({Key? key, required this.goToRoute}) : super(key: key);
+  final InformToScreens informToScreens;
+  const InfoPage(this.informToScreens,{Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
