@@ -15,10 +15,23 @@ class AllRoutes {
   static const String saves = '/saves';
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  String thisRoute = AllRoutes.home;
+  bool is404 = false;
+
+  void goToRoute(String route) {
+    setState(() {
+      thisRoute = route;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,13 +40,48 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Raleway',
       ),
-      routes: {
-        AllRoutes.home: (context) => const Home(),
-        AllRoutes.info: (context) => const InfoPage(),
-        AllRoutes.setting: (context) => const SettingPage(),
-        AllRoutes.saves: (context) => const SavesPage(),
-      },
-      initialRoute: '/',
+      home: Navigator(
+        pages: [
+          MaterialPage(
+            child: Home(
+              goToRoute: goToRoute,
+            ),
+          ),
+          if (thisRoute == AllRoutes.saves)
+            MaterialPage(
+              child: SavesPage(
+                goToRoute: goToRoute,
+              ),
+            ),
+          if (thisRoute == AllRoutes.info)
+            MaterialPage(
+              child: InfoPage(
+                goToRoute: goToRoute,
+              ),
+            ),
+          if (thisRoute == AllRoutes.setting)
+            MaterialPage(
+              child: SettingPage(
+                goToRoute: goToRoute,
+              ),
+            ),
+          if (is404)
+            const MaterialPage(
+              child: Scaffold(
+                body: Center(
+                  child: Text('404'),
+                ),
+              ),
+            ),
+        ],
+        onPopPage: ((route, result) {
+          if (!route.didPop(result)) {
+            return false;
+          }
+
+          return route.didPop(result);
+        }),
+      ),
     );
   }
 }

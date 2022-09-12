@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:noise_meter/noise_meter.dart';
+import 'package:shum_app/main.dart';
 
 import '../bottom_bar/bottom_bar.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  final Function goToRoute;
+  const Home({Key? key, required this.goToRoute}) : super(key: key);
 
   @override
   State<Home> createState() => HomeState();
@@ -71,7 +73,7 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const BottomBar(),
+      bottomNavigationBar: BottomBar(widget.goToRoute),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -91,7 +93,7 @@ class HomeState extends State<Home> {
                       ),
                     ),
                     onTap: () {
-                      Navigator.of(context).pushNamed('/info');
+                      widget.goToRoute(AllRoutes.info);
                     },
                     borderRadius: BorderRadius.circular(50),
                   ),
@@ -105,7 +107,7 @@ class HomeState extends State<Home> {
                       ),
                     ),
                     onTap: () {
-                      Navigator.of(context).pushNamed('/setting');
+                      widget.goToRoute(AllRoutes.setting);
                     },
                     borderRadius: BorderRadius.circular(50),
                   ),

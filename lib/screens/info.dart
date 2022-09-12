@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 import 'dart:math' as math;
 
 class InfoPage extends StatelessWidget {
-  const InfoPage({Key? key}) : super(key: key);
+  final Function goToRoute;
+  const InfoPage({Key? key, required this.goToRoute}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

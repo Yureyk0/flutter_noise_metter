@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SettingPage extends StatelessWidget {
-  const SettingPage({Key? key}) : super(key: key);
+  final Function goToRoute;
+  const SettingPage({Key? key, required this.goToRoute}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

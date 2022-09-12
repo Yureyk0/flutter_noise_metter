@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import '../bottom_bar/bottom_bar.dart';
 
 class SavesPage extends StatelessWidget {
-  const SavesPage({Key? key}) : super(key: key);
+  final Function goToRoute;
+  const SavesPage({Key? key, required this.goToRoute}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Text('Saves'),
-      bottomNavigationBar: BottomBar(),
+    return Scaffold(
+      body: const Text('Saves'),
+      bottomNavigationBar: BottomBar(goToRoute),
     );
   }
 }

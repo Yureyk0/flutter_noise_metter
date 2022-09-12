@@ -4,7 +4,8 @@ import 'package:shum_app/main.dart';
 import 'package:shum_app/screens/home.dart';
 
 class BottomBar extends StatefulWidget {
-  const BottomBar({Key? key}) : super(key: key);
+  final Function goToRourte;
+  const BottomBar(this.goToRourte, {Key? key}) : super(key: key);
 
   @override
   State<BottomBar> createState() => _BottomBarState();
@@ -17,10 +18,6 @@ class _BottomBarState extends State<BottomBar> {
     return route == thisRoute()
         ? const Color.fromARGB(255, 240, 236, 236)
         : Colors.transparent;
-  }
-
-  String? activeButtonNavigation(String route) {
-    thisRoute() != route ? Navigator.of(context).pushNamed(route) : null;
   }
 
   bool? getIsRecording() {
@@ -42,12 +39,12 @@ class _BottomBarState extends State<BottomBar> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Material(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           color: activeBtnColor(AllRoutes.saves),
           child: InkWell(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             onTap: () {
-              activeButtonNavigation(AllRoutes.saves);
+              widget.goToRourte(AllRoutes.saves);
             },
             child: SizedBox(
               width: MediaQuery.of(context).size.width / 4,
@@ -66,7 +63,7 @@ class _BottomBarState extends State<BottomBar> {
           child: InkWell(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             onTap: () async {
-              activeButtonNavigation(AllRoutes.home);
+              widget.goToRourte(AllRoutes.home);
 
               var status = await Permission.microphone.isDenied;
               if (thisRoute() == AllRoutes.home && status) {
