@@ -1,6 +1,8 @@
 # shum_app
 
 A new Flutter project.
+![image](https://user-images.githubusercontent.com/60176477/189623857-de550c44-4fb8-4b34-831a-457052b35251.png)
+
 
 ## Getting Started
 
